@@ -1,31 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hive/hive.dart';
 import 'package:user_location_like_as_foodpanda/pages/location_control_pages/map_select_page.dart';
 
-import '../home_page/home_page.dart';
-
-class DeniedForeverPage extends StatefulWidget {
+class DeniedForeverPage extends StatelessWidget {
   const DeniedForeverPage({super.key});
 
-  @override
-  State<DeniedForeverPage> createState() => _DeniedForeverPageState();
-}
-
-class _DeniedForeverPageState extends State<DeniedForeverPage> {
-  late Box ifStoreLocation;
-  late Box permissionFlagBox;
-
-  @override
-  void initState() {
-    super.initState();
-    ifStoreLocation = Hive.box("FirstTimeCheckBox");
-    permissionFlagBox = Hive.box("StorePermissionFlag");
-  }
-
-
-  void _navigateHomePage(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
+  Future<void> _openAppSettings() async {
+    await Geolocator.openAppSettings();
   }
 
   @override
@@ -63,27 +44,7 @@ class _DeniedForeverPageState extends State<DeniedForeverPage> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                            onPressed: () async {
-                              LocationPermission permission = await Geolocator.checkPermission();
-
-                              if (permission == LocationPermission.deniedForever) {
-                                await Geolocator.openAppSettings();
-                              } else {
-                                permission = await Geolocator.requestPermission();
-
-                                if(permission == LocationPermission.always || permission == LocationPermission.whileInUse){
-                                  await ifStoreLocation.put("check_hive", false);
-                                  await permissionFlagBox.put("permission_flag", "granted");
-                                  if(mounted){
-                                    _navigateHomePage();
-                                  }
-                                } else if(permission == LocationPermission.deniedForever){
-                                  await permissionFlagBox.put("permission_flag", "denied_forever");
-                                } else {
-                                  await permissionFlagBox.put("permission_flag", "denied");
-                                }
-                              }
-                            },
+                            onPressed: _openAppSettings,
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.pink,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
