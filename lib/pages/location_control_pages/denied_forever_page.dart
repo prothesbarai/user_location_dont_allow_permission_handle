@@ -76,7 +76,7 @@ class _DeniedForeverPageState extends State<DeniedForeverPage> {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => MapSelectPage(),));
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xfffef7ff),
+                              backgroundColor: Color(0xfffef7ff),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 side: BorderSide(color: Colors.pink, width: 2),
