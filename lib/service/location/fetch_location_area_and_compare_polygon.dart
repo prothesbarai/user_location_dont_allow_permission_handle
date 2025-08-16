@@ -12,14 +12,12 @@ import 'map_polygon.dart';
 
 class FetchLocationAreaAndComparePolygon {
   static late Box locationBox;
-  static Future<void> fetchLocation(BuildContext context,bool isPermission) async{
-
+  static Future<void> fetchLocation(BuildContext context) async{
     locationBox = Hive.box<LocationStoreHiveModel>("StoreUserLocations");
-
-    if(!isPermission) return;
     try{
       Position position = await Geolocator.getCurrentPosition(locationSettings: LocationSettings(accuracy: LocationAccuracy.high,distanceFilter: 0));
       final userPosition = turf.Position(position.longitude, position.latitude);
+
       final locationInfo = getLocationInfo(userPosition);
       List<Placemark> placeMark = await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placeMark[0];
@@ -43,7 +41,7 @@ class FetchLocationAreaAndComparePolygon {
 
       await locationBox.put("store_location", customPlace);
       if(context.mounted){
-        Provider.of<LocationProvider>(context, listen: false).refreshLocation();
+        Provider.of<LocationProvider>(context,listen: false).refreshLocation();
       }
 
     }catch(e){

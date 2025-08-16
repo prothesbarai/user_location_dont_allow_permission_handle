@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
 import '../location_store_hive_model/location_store_hive_model.dart';
 
 class LocationProvider extends ChangeNotifier{

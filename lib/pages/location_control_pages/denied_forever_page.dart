@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:user_location_like_as_foodpanda/pages/location_control_pages/map_select_page.dart';
-import '../../service/location/fetch_location_area_and_compare_polygon.dart';
 import '../../service/location/location_permission_service.dart';
 
 
@@ -21,13 +19,7 @@ class _DeniedForeverPageState extends State<DeniedForeverPage> {
     final opened = await Geolocator.openAppSettings();
     if (opened) {
       if (!mounted) return;
-      final permissionResult = await LocationPermissionService.fetchPermission(context);
-      if (mounted) {
-        await FetchLocationAreaAndComparePolygon.fetchLocation(context, permissionResult);
-      }
-      if (kDebugMode) {
-        print("Permission granted: $permissionResult");
-      }
+      await LocationPermissionService.fetchPermission(context);
     }
   }
 
