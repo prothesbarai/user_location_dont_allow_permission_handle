@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  late Box ifStoreLocation;
+  late Box ifFirstTimeStoreLocation;
   late Box permissionFlagBox;
 
 
@@ -26,13 +26,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
   Future<void> _checkFirstTimeInStoreLocation() async{
-    ifStoreLocation = Hive.box("FirstTimeCheckBox");
+    ifFirstTimeStoreLocation = Hive.box("FirstTimeCheckBox");
     permissionFlagBox = Hive.box("StorePermissionFlag");
-
-    bool isFirstTime = ifStoreLocation.get("check_hive", defaultValue: true);
+    bool isFirstTime = ifFirstTimeStoreLocation.get("check_hive", defaultValue: true);
     String permissionFlag = permissionFlagBox.get("permission_flag", defaultValue: "denied");
-
-
 
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;

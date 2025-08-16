@@ -6,11 +6,11 @@ import '../pages/location_control_pages/denied_forever_page.dart';
 import '../pages/location_control_pages/map_select_page.dart';
 
 class LocationPermissionService {
-  static late Box ifStoreLocation;
+  static late Box ifFirstTimeStoreLocation;
   static late Box permissionFlagBox;
 
   static Future<bool> fetchLocation(BuildContext context) async {
-    ifStoreLocation = Hive.box("FirstTimeCheckBox");
+    ifFirstTimeStoreLocation = Hive.box("FirstTimeCheckBox");
     permissionFlagBox = Hive.box("StorePermissionFlag");
 
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -27,7 +27,7 @@ class LocationPermissionService {
       if (permission == LocationPermission.always ||
           permission == LocationPermission.whileInUse) {
         // Allow
-        await ifStoreLocation.put("check_hive", false);
+        await ifFirstTimeStoreLocation.put("check_hive", false);
         await permissionFlagBox.put("permission_flag", "granted");
         if (context.mounted) {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()),);
@@ -52,7 +52,7 @@ class LocationPermissionService {
 
     // Direct Allow
     if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
-      await ifStoreLocation.put("check_hive", false);
+      await ifFirstTimeStoreLocation.put("check_hive", false);
       await permissionFlagBox.put("permission_flag", "granted");
       if (context.mounted) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()),);
