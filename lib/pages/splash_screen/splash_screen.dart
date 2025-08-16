@@ -36,7 +36,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;
-
       if (isFirstTime && permissionFlag == "denied") {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PermissionCheckIntroPage()),);
       } else if (isFirstTime && permissionFlag == "denied_forever") {

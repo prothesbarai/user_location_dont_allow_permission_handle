@@ -1,13 +1,34 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:user_location_like_as_foodpanda/pages/location_control_pages/map_select_page.dart';
 
-class DeniedForeverPage extends StatelessWidget {
+import '../../service/location_permission_service.dart';
+
+
+class DeniedForeverPage extends StatefulWidget {
   const DeniedForeverPage({super.key});
 
+  @override
+  State<DeniedForeverPage> createState() => _DeniedForeverPageState();
+}
+
+class _DeniedForeverPageState extends State<DeniedForeverPage> {
+
+
   Future<void> _openAppSettings() async {
-    await Geolocator.openAppSettings();
+    final opened = await Geolocator.openAppSettings();
+
+    if (opened) {
+      if (!mounted) return;
+      bool granted = await LocationPermissionService.fetchLocation(context);
+      if (kDebugMode) {
+        print("Permission granted: $granted");
+      }
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
