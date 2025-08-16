@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../service/location_permission_service.dart';
+import '../../service/location/fetch_location_area_and_compare_polygon.dart';
+import '../../service/location/location_permission_service.dart';
 
 class PermissionCheckIntroPage extends StatefulWidget {
   const PermissionCheckIntroPage({super.key});
@@ -8,7 +9,6 @@ class PermissionCheckIntroPage extends StatefulWidget {
   @override
   State<PermissionCheckIntroPage> createState() => _PermissionCheckIntroPageState();
 }
-
 class _PermissionCheckIntroPageState extends State<PermissionCheckIntroPage> {
 
 
@@ -79,9 +79,13 @@ class _PermissionCheckIntroPageState extends State<PermissionCheckIntroPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () async{
-                          bool result = await LocationPermissionService.fetchLocation(context);
+                          final permissionResult = await LocationPermissionService.fetchPermission(context);
+                          if (context.mounted) {
+                            await FetchLocationAreaAndComparePolygon.fetchLocation(context, permissionResult);
+                          }
+
                           if (kDebugMode) {
-                            print("Permission granted: $result");
+                            print("Permission granted: $permissionResult");
                           }
                         },
                         style: ElevatedButton.styleFrom(

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
-import '../pages/home_page/home_page.dart';
-import '../pages/location_control_pages/denied_forever_page.dart';
-import '../pages/location_control_pages/map_select_page.dart';
+import '../../pages/home_page/home_page.dart';
+import '../../pages/location_control_pages/denied_forever_page.dart';
+import '../../pages/location_control_pages/map_select_page.dart';
 
 class LocationPermissionService {
   static late Box ifFirstTimeStoreLocation;
   static late Box permissionFlagBox;
 
-  static Future<bool> fetchLocation(BuildContext context) async {
+  static Future<bool> fetchPermission(BuildContext context) async {
     ifFirstTimeStoreLocation = Hive.box("FirstTimeCheckBox");
     permissionFlagBox = Hive.box("StorePermissionFlag");
 
