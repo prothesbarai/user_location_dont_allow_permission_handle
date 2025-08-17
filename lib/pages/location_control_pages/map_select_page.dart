@@ -56,7 +56,7 @@ class _MapSelectPageState extends State<MapSelectPage> {
               child: ElevatedButton(
                 onPressed: () {
                   if (kDebugMode) {
-                    print("Selected Lat: ${selectedLocation.latitude}, Lng: ${selectedLocation.longitude}");
+                    print("Selected Lat: ${selectedLocation.latitude}, Selected Lng: ${selectedLocation.longitude}");
                   }
                 },
                 style: ElevatedButton.styleFrom(
